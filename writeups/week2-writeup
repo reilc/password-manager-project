@@ -11,47 +11,47 @@ port 80.
 ## Steps to Reproduce
 1. Obtain the iPhone’s IP address, which can be done by going to Settings, selecting Wi-Fi, pressing the blue “ⓘ” icon next to the Wi-Fi name you’re connected to, and scrolling down until you can see the address.
 
-![](writeups/week2-images/iphone-wifi.png)
-![](writeups/week2-images/iphone-ipaddr.png)
+![Name of Wi-Fi connection](week2-images/iphone-wifi.png)
+![iPhone IP Address](week2-images/iphone-ipaddr.png)
 
 2. Obtain the Macbook’s IP address. Open a new terminal window and run the command, ipconfig getifaddr en0, which will return your Macbook’s IP address. Alternatively, you can follow the instructions from Step 1 and click the button labeled, “Details…”, instead of a blue “ⓘ” icon to find the IP address.
 
-![](writeups/week2-images/mac-ipaddr.png)
+![Laptop IP Address](week2-images/mac-ipaddr.png)
 
 3. Run the web application on the Macbook. In my case, this is done by opening my terminal, moving to the appropriate directory, and running the command, docker-compose up.
 
-![](writeups/week2-images/docker-up.png)
+![Starting up webapp through Docker](week2-images/docker-up.png)
 
 4. Launch the ARP spoofing tool by running the command, sudo bettercap -eval "set arp.spoof.targets <victim IP>; arp.spoof on", and using the iPhone’s IP address.
 
-![](writeups/week2-images/arp-spoof.png)
+![Starting up ARP spoofing tool](week2-images/arp-spoof.png)
 
 5. On the iPhone, navigate to the web application. I did this by searching, http://[<computer IP address>]:80, on Safari and using my Macbook’s IP address.
 
-![](writeups/week2-images/iphone-webapp-login1.png)
+![Loading up webapp on iPhone](week2-images/iphone-webapp-login1.png)
 
 6. Open the Wireshark app and select “Wi-Fi” as the filter.
 
-![](writeups/week2-images/wireshark.png)
+![Starting up Wireshark](week2-images/wireshark.png)
 
 7. Go back to the iPhone and sign into the web application.
 
-![](writeups/week2-images/iphone-webapp-login2.png)
-![](writeups/week2-images/iphone-webapp-homepage.png)
+![Typing in login credentials on webapp](week2-images/iphone-webapp-login2.png)
+![Logging into the webapp](week2-images/iphone-webapp-homepage.png)
 
 8. Go back to Wireshark and pause the packet captures by clicking the red square on the top left side of the screen. Sort the packets by IP address by right-clicking any of the packet’s IP address and selecting “Apply as filter”. Then, on the green bar above the table, replace the IP address with the iPhone’s IP address.
 
-![](writeups/week2-images/wireshark2.png)
+![Sorting Wireshark packets by IP address](week2-images/wireshark2.png)
 
 9. Sort the packets by protocol by clicking the column on the top labeled, “Protocol”.
 
 10. Look for the packets that are of protocol HTTP. Once you see them, find the packet that mentions, “POST”, and click it. This packet contains the information about the login credentials we used.
 
-![](writeups/week2-images/wireshark3.png)
+![Applying HTTP POST protocol to packets](week2-images/wireshark3.png)
 
 11. Upon clicking the packet, the login credentials can be seen in clear text.
 
-![](writeups/week2-images/wireshark4.png)
+![Examining the packet containing login credentials](week2-images/wireshark4.png)
 
 ## Analysis
 1. Q: What is the specific asset you were able to obtain from your MITM?
