@@ -7,59 +7,59 @@ In the last lab, I saw how attackers can leverage tools such as Metasploit and m
 ## Steps to Reproduce
 1. First, we’ll install ZAP!, a dynamic application security testing tool. Since I’m using an M1 Macbook, I’ll download the macOS(Apple Silicon - aarch64) Installer.
 
-![](week7-images/img1.png)
+![](images/week7-images/img1.png)
 
 2. With ZAP! installed, keep the top most option selected and click “Start”
 
-![](week7-images/img2.png)
+![](images/week7-images/img2.png)
 
 3. Afterwards, in the welcome page, choose the “Automated Scan Option”. Be sure to have open docker and your web application beforehand.
 
-![](week7-images/img3.png)
+![](images/week7-images/img3.png)
 
 4. Set the URL to attack to be `https://localhost`, then click Attack
 
-![](week7-images/img4.png)
+![](images/week7-images/img4.png)
 
 5. As ZAP! does its scan, you can click the “Alerts” tab towards the bottom right to see what types of vulnerabilities have been detected. In particular, we’re interested in Cross Site Scripting and SQL Injections.
 
-![](week7-images/img.png)
+![](images/week7-images/img.png)
 
 ### **Attack 1 - Logging in as Admin without using their password**
 1. To do this, head to the login page for the password manager.
 
-![](week7-images/img-a1-1.png)
+![](images/week7-images/img-a1-1.png)
 
 2. Set the username to, `‘ OR 1=1; --`, and set the password to be anything.
 
-![](week7-images/img-a1-2.png)
+![](images/week7-images/img-a1-2.png)
 
 3. Upon logging in, we’ll see the following screen.
 
-![](week7-images/img-a1-3.png)
+![](images/week7-images/img-a1-3.png)
 
     
 ### **Attack 2 - Find a way to retrieve all VAULT passwords from the database**
 1. Signed in as an Admin, navigate to the “Vaults” tab.
 
-![](week7-images/img-a2-1.png)
+![](images/week7-images/img-a2-1.png)
 
 2. In the search bar, type, UNION SELECT username, password FROM vault_passwords-- -, and you should see the following:
 
-![](week7-images/img-a2-2.png)
+![](images/week7-images/img-a2-2.png)
 
 ### **Attack 3 - Create a false pop-up asking your victim for confidential information whenever they access a vault**
 1. Log out and then request an account like so (be sure to set the first name to `<script>alert(“SEND CREDIT CARD INFO TO 123 456-7890”);</script>`):
 
-[](week7-images/img-a3-1.png)
+[](images/week7-images/img-a3-1.png)
 
 2. Log into the password manager as an Admin, then click the “Users” tab towards the top-right.
 
-[](week7-images/img-a3-2.png)
+[](images/week7-images/img-a3-2.png)
 
 3. Upon clicking it, you should see the alert that we’ve created.
 
-[](week7-images/img-a3-3.png)
+[](images/week7-images/img-a3-3.png)
 
 ## Analysis
 1. Q: For each attack you executed, which of the CIA pillars were violated?

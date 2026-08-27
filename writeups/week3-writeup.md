@@ -9,47 +9,47 @@ In the previous lab, I performed a Man-in-the-Middle attack on my web applicatio
 
 2. Generate the certificate signing request (CSR). Open the terminal and navigate to the certs folder inside the project directory. Then, enter the command: **openssl req -newkey rsa:2048 -nodes -keyout localhost.key -subj "/C=US/ST=WA/L=SEA/O=UW/CN=localhost/OU=iSchool" -out localhost.csr**
 
-![Generate CSR](week3-images/img2.png)
+![Generate CSR](images/week3-images/img2.png)
 
 3. Next, enter the command: **openssl x509 -req -extfile <(printf "subjectAltName=DNS:localhost") -days 365 -in localhost.csr -CA iSchool-RootCA.crt -CAkey iSchool-RootCA.key -CAcreateserial -out localhost.crt**. This will get us our signed certificate.
 
-![Get signed certificate](week3-images/img3.png)
+![Get signed certificate](images/week3-images/img3.png)
 
 4. Open the project folder in a code-editor, such as VSCode. Find the file, **docker-compose.yaml**, and find the lines under services > router > volumes. Add the following lines:
     - ./certs/localhost.crt:/etc/nginx/ssl/localhost.crt
     - ./certs/localhost.key:/etc/nginx/ssl/localhost.key
 
-![Changes to docker-compose.yaml](week3-images/img4.png)
+![Changes to docker-compose.yaml](images/week3-images/img4.png)
 
 5. In the same file, under services > routers > ports, change the port number 80:80 to 443:443.
 
-![Changes to port number](week3-images/img5.png)
+![Changes to port number](images/week3-images/img5.png)
 
 6. Open the file, **nginx-default.conf**, and replace line 2 to be: **listen 443 ssl;**
 
-![Changes to nginx-default.conf](week3-images/img6.png)
+![Changes to nginx-default.conf](images/week3-images/img6.png)
 
 7. In the same file, after line 3, the line containing the server name, add the following lines:
     - ssl_certificate /etc/nginx/ssl/localhost.crt;
     - ssl_certificate_key /etc/nginx/ssl/localhost.key;
 
-![Changes to nginx-default.conf](week3-images/img7.png)
+![Changes to nginx-default.conf](images/week3-images/img7.png)
 
 8. Save the changes made to both files and run the web application by searching up, https://localhost:443.
 
-![Running webapp](week3-images/img8.png)
+![Running webapp](images/week3-images/img8.png)
 
 9. Now that the web application is configured to use encryption, we can attempt a MITM attack to try to obtain our login credentials. Open WireShark and choose to capture from “Loopback:Io0”.
 
-![Setting up Wireshark](week3-images/img9.png)
+![Setting up Wireshark](images/week3-images/img9.png)
 
 10. Sign into the web application, then return to Wireshark and stop the packet capture by clicking the red square on the top left.
 
-![Capture packets](week3-images/img10.png)
+![Capture packets](images/week3-images/img10.png)
 
 11. Notice that unlike the previous lab, none of the packets mention “POST” in the INFO tab, which was how we found the packet with the login credentials. This shows that our web application is encrypted and no longer unsecure.
 
-![Missing POST packets](week3-images/img11.png)
+![Missing POST packets](images/week3-images/img11.png)
 
 ## Analysis
 1. Q: What layers of the OSI model remain in clear text following our encryption implementation?
