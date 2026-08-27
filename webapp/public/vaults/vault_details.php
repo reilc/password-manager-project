@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../components/loggly-logger.php'; // Add this line
+
 // Replace with your database connection details
 $hostname = 'backend-mysql-database';
 $username = 'user';
@@ -52,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST['addUsername']) && is
     }
     // Redirect to the current page after adding the password
     header("Location: {$_SERVER['PHP_SELF']}?vault_id=$vaultId");
+    $logger->info("User added new password to vault: $vaultId"); // Add this line
     exit();
 }
 
@@ -131,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST['deletePasswordId']) 
 
     // Redirect to the current page after deleting the password
     header("Location: {$_SERVER['PHP_SELF']}?vault_id=$vaultId");
+    $logger->info("User deleted a password from vault: $vaultId"); // Add this line
     exit();
 }
 
@@ -172,7 +176,7 @@ $queryVaultOwner = "SELECT *
                     WHERE vault_permissions.vault_id = $vaultId
                     AND vault_permissions.role_id = 1
                     AND vault_permissions.user_id = users.user_id
-                    AND users.username = '" . $_COOKIE['authenticated'] . "'";
+                    AND users.username = '" . $_SESSION['authenticated'] . "'"; // change $_COOKIE to $_SESSION
 
 $resultIsOwner = $conn->query($queryVaultOwner);
 

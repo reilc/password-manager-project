@@ -51,7 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2 class="text-center">Request Account</h2>
             <?php if (isset($error_message)) : ?>
                 <div class="alert alert-danger" role="alert">
-                    <?php echo $error_message; ?>
+                    <//?php echo $error_message; ?> Replace this line with the one below:
+                    <?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             <form action="request_account.php" method="post">

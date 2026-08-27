@@ -21,7 +21,8 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
                 <a class="nav-link">
-                    <?php echo "Welcome " . $_COOKIE['authenticated'] ?>
+                    <!-- Change from echo "Welcome " . $_COOKIE['authenticated'] to the following: -->
+                    <?php echo "Welcome " . $_SESSION['authenticated'] ?>
                 </a>
             </li>
             <li class="nav-item active">
@@ -31,7 +32,7 @@
                 <a class="nav-link" href="/vaults/">Vaults</a>
             </li>
             <?php
-            if (isset($_COOKIE['isSiteAdministrator']) && $_COOKIE['isSiteAdministrator'] == true) {
+            if (isset($_SESSION['isSiteAdministrator']) && $_SESSION['isSiteAdministrator'] == true) { // change $_COOKIE to $_SESSION
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/">Users</a>
@@ -40,7 +41,7 @@
             }
             ?>
             <?php
-            if (isset($_COOKIE['isSiteAdministrator']) && $_COOKIE['isSiteAdministrator'] == true) {
+            if (isset($_SESSION['isSiteAdministrator']) && $_SESSION['isSiteAdministrator'] == true) {// change $_COOKIE to $_SESSION
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/">Admin</a>
@@ -55,3 +56,35 @@
         </ul>
     </div>
 </nav>
+
+
+<!-- Idle Logout Script -->
+<script>
+
+let idleTimer;
+const IDLE_LIMIT = 30000; // 30 seconds
+
+function logoutUser() {
+    window.location.href = '/logout.php?timeout=1';
+}
+
+function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(logoutUser, IDLE_LIMIT);
+}
+
+const events = [
+    'mousemove',
+    'mousedown',
+    'keydown',
+    'scroll',
+    'touchstart'
+];
+
+events.forEach(function(event) {
+    document.addEventListener(event, resetIdleTimer, true);
+});
+
+resetIdleTimer();
+
+</script>

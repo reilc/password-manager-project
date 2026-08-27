@@ -1,15 +1,22 @@
 <?php
 
-// Expire the authentication cookie
-unset($_COOKIE['authenticated']); 
-setcookie('authenticated', '', time() - 3600, '/');
+session_start();
 
-// Expire the Administrator cookie
-unset($_COOKIE['isSiteAdministrator']); 
-setcookie('isSiteAdministrator', '', -1, '/'); 
+include './components/loggly-logger.php';
 
-// Redirect to the login page
-header('Location: /login.php');
+$wasTimeout = isset($_GET['timeout']);
+
+if ($wasTimeout) {
+    $logger->info("User was automatically logged out after inactivity");
+} else {
+    $logger->info("User has logged out");
+}
+// Destroy session completely
+session_unset();
+session_destroy();
+
+// Redirect to login page
+header('Location: /login.php' . (isset($_GET['timeout']) ? '?timeout=1' : ''));
 exit();
 
 ?>
