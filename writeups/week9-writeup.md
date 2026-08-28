@@ -56,7 +56,7 @@ To ensure our app’s consistent functionality, we can implement tests that chec
 
 13. Once all your tests are in the `pytest` file and are ready to be ran, using a terminal with the project files open, enter “pytest” to run all the tests.
 
-![](images/week9-images/img12.png)
+![](images/week9-images/img13.png)
 
 Out of these tests, the autoLogoutTest and the sqlInjectionTest helped to reduce the most risk in the application.
 
