@@ -12,7 +12,7 @@ port 80.
 1. Obtain the iPhone’s IP address, which can be done by going to Settings, selecting Wi-Fi, pressing the blue “ⓘ” icon next to the Wi-Fi name you’re connected to, and scrolling down until you can see the address.
 
 ![Name of Wi-Fi connection](images/week2-images/iphone-wifi.png)
-![iPhone IP Address](wimages/eek2-images/iphone-ipaddr.png)
+![iPhone IP Address](images/week2-images/iphone-ipaddr.png)
 
 2. Obtain the Macbook’s IP address. Open a new terminal window and run the command, ipconfig getifaddr en0, which will return your Macbook’s IP address. Alternatively, you can follow the instructions from Step 1 and click the button labeled, “Details…”, instead of a blue “ⓘ” icon to find the IP address.
 
