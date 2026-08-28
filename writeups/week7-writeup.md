@@ -23,7 +23,7 @@ In the last lab, I saw how attackers can leverage tools such as Metasploit and m
 
 5. As ZAP! does its scan, you can click the “Alerts” tab towards the bottom right to see what types of vulnerabilities have been detected. In particular, we’re interested in Cross Site Scripting and SQL Injections.
 
-![](images/week7-images/img.png)
+![](images/week7-images/img5.png)
 
 ### **Attack 1 - Logging in as Admin without using their password**
 1. To do this, head to the login page for the password manager.
@@ -51,15 +51,15 @@ In the last lab, I saw how attackers can leverage tools such as Metasploit and m
 ### **Attack 3 - Create a false pop-up asking your victim for confidential information whenever they access a vault**
 1. Log out and then request an account like so (be sure to set the first name to `<script>alert(“SEND CREDIT CARD INFO TO 123 456-7890”);</script>`):
 
-[](images/week7-images/img-a3-1.png)
+![](images/week7-images/img-a3-1.png)
 
 2. Log into the password manager as an Admin, then click the “Users” tab towards the top-right.
 
-[](images/week7-images/img-a3-2.png)
+![](images/week7-images/img-a3-2.png)
 
 3. Upon clicking it, you should see the alert that we’ve created.
 
-[](images/week7-images/img-a3-3.png)
+![](images/week7-images/img-a3-3.png)
 
 ## Analysis
 1. Q: For each attack you executed, which of the CIA pillars were violated?
